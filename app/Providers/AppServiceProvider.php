@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+
+use App\Repo\MysqlRepository;
+use App\Repo\NotificationInterface;
+
+use App\Services\QueueInterface;
+use App\Services\Rabbit\RabbitQueueManager;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +19,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(NotificationInterface::class, MysqlRepository::class);
+        $this->app->bind(QueueInterface::class, RabbitQueueManager::class);
     }
 
     /**
