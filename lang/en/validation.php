@@ -171,4 +171,6 @@ return [
 
     'attributes' => [],
 
+    'persian_phone' => 'The :attribute does not match with persian phone number.'
+
 ];
