@@ -16,7 +16,7 @@ use App\Http\Controllers\PushNotificationController;
 |
 */
 
- Route::prefix('/notification')->group(function () {
+ Route::prefix('/push')->group(function () {
      Route::post('/', [PushNotificationController::class, 'push'])->name('push');
  });
 
