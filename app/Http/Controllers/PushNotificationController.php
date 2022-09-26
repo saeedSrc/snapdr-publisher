@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Domain\Notification;
+use App\Domain\NotificationDto;
 use App\Http\Requests\PushNotificationRequest;
+use App\Models\Notification;
 use App\Repo\NotificationInterface;
 use App\Services\QueueInterface;
 use App\Domain\Queue;
@@ -22,19 +23,19 @@ class PushNotificationController extends Controller
     public function push(PushNotificationRequest $request): JsonResponse
     {
         $messageKey = uniqid(more_entropy: true);
-        $this->insertNotification(Notification::getDataDomain($request->validated()), $messageKey);
-        $this->publishMessageToQueue(Notification::getDataDomain($request->validated()), $messageKey);
+        $this->insertNotification(NotificationDto::getDataDomain($request->validated()), $messageKey);
+        $this->publishMessageToQueue(NotificationDto::getDataDomain($request->validated()), $messageKey);
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 
 
-    private function insertNotification(Notification $dto, string $messageKey): void
+    private function insertNotification(NotificationDto $dto, string $messageKey): void
     {
-        $notification = new \App\Models\Notification();
+        $notification = new Notification();
         $notification->to = $dto->to;
         $notification->name = $dto->name;
         $notification->message = $dto->message;
-        $notification->type = $notification::getTypeDatabaseValue($dto->type);
+        $notification->type = $notification::mapPushMethod($dto->type);
         $notification->sent = false;
         $notification->message_key = $messageKey;
         $notification->created_at = now();
@@ -43,7 +44,7 @@ class PushNotificationController extends Controller
         $this->notificationRepository->insert($notification);
     }
 
-    private function publishMessageToQueue(Notification $dto, string $messageKey): void
+    private function publishMessageToQueue(NotificationDto $dto, string $messageKey): void
     {
         $this->queueManager->publish(new Queue(
             Queue::QUEUE,

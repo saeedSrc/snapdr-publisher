@@ -28,7 +28,7 @@ class Notification extends Model
         'sent' => 'bool'
     ];
 
-    public static function getTypeDatabaseValue(string $value): int
+    public static function mapPushMethod(string $value): int
     {
         return match ($value) {
             config('notif.sms') => config('notif.sms_num'),

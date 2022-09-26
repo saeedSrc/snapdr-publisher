@@ -16,7 +16,7 @@ use App\Http\Controllers\PushNotificationController;
 |
 */
 
-Route::as('Notification Service')->group(function () {
+Route::as('NotificationDto Service')->group(function () {
     Route::prefix('/notification')
         ->as('notification')
         ->group(function () {

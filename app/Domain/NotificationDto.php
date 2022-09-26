@@ -2,7 +2,7 @@
 
 namespace App\Domain;
 
-class Notification
+class NotificationDto
 {
     public function __construct(public string $to, public string $name, public string $message, public string $type)
     {
