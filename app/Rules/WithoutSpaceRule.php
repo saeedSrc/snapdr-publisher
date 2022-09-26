@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class WithoutSpace implements Rule
+class WithoutSpaceRule implements Rule
 {
     /**
      * Create a new rule instance.

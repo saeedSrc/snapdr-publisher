@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Notification;
 use App\Rules\PersianPhoneRule;
-use App\Rules\WithoutSpace;
+use App\Rules\WithoutSpaceRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -19,7 +19,7 @@ class PushNotificationRequest extends FormRequest
     {
         return [
             'type' => ['required', Rule::in($this->getValidMethods())],
-            'to' => ['required', 'string', WithoutSpace::class, $this->getReceiverRule()],
+            'to' => ['required', 'string', WithoutSpaceRule::class, $this->getReceiverRule()],
             'message' => ['required', 'string', 'max:10000'],
             'name' => ['required', 'string', 'max:100']
         ];
