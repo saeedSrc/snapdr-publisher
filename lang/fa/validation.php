@@ -118,7 +118,7 @@ return [
     */
 
     'attributes' => [],
-
+    'general_response_err' => "خطا در شبکه لطفا مجددا تلاش کنید",
     'persian_phone' => ' :attribute با شماره تلفن ایران سازگار نیست.'
 
 ];

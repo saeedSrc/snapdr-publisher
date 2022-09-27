@@ -30,7 +30,7 @@ class PushNotificationController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json($e->getMessage(), $e->getCode());
+            return response()->json(trans("validation.general_response_err"), 422);
         }
         return response()->json("message pushed successfully");
     }

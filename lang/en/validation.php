@@ -170,7 +170,7 @@ return [
     */
 
     'attributes' => [],
-
+     'general_response_err' => "something went wrong please try again ...",
     'persian_phone' => 'The :attribute does not match with persian phone number.'
 
 ];
