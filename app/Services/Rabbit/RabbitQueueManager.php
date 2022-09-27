@@ -23,7 +23,7 @@ class RabbitQueueManager implements QueueInterface
      */
     public function __construct(Repository $configRepository)
     {
-        $this->connection = AMQPStreamConnection::create_connection($this->getRabbitmqConnection());
+        $this->connection = AMQPStreamConnection::create_connection($this->getConn());
         $this->channel = $this->connection->channel();
     }
 
@@ -47,7 +47,7 @@ class RabbitQueueManager implements QueueInterface
         $this->connection->close();
     }
 
-    private function getRabbitmqConnection(): array
+    private function getConn(): array
     {
         return [
             [
