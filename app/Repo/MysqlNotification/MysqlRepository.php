@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Repo;
+namespace App\Repo\MysqlNotification;
 
 use App\Models\Notification;
+use App\Repo\NotificationInterface;
 use Illuminate\Support\Facades\DB;
 use PDO;
 

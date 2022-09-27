@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 
-use App\Repo\MysqlRepository;
+use App\Repo\MysqlNotification;
 use App\Repo\NotificationInterface;
 
 use App\Services\QueueInterface;
@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(NotificationInterface::class, MysqlRepository::class);
+        $this->app->bind(NotificationInterface::class, MysqlNotification\MysqlRepository::class);
         $this->app->bind(QueueInterface::class, RabbitQueueManager::class);
     }
 
