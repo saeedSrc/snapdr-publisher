@@ -19,7 +19,7 @@ class PushNotificationRequest extends FormRequest
     {
         return [
             'type' => ['required', Rule::in($this->getValidMethods())],
-            'to' => ['required', 'string', WithoutSpaceRule::class, $this->getMethodRule()],
+            'to' => ['required', 'string', new WithoutSpaceRule(), $this->getMethodRule()],
             'message' => ['required', 'string', 'max:10000'],
             'name' => ['required', 'string', 'max:100']
         ];

@@ -7,13 +7,8 @@ use App\Services\QueueInterface;
 use Exception;
 use Illuminate\Config\Repository;
 use PhpAmqpLib\Channel\AMQPChannel;
-
 use PhpAmqpLib\Message\AMQPMessage;
-
 use PhpAmqpLib\Connection\AMQPStreamConnection;
-
-
-
 
 class RabbitQueueManager implements QueueInterface
 {

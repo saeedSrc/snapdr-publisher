@@ -35,6 +35,6 @@ class WithoutSpaceRule implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'yo should not insert space in to destination';
     }
 }
