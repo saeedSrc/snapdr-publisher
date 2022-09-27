@@ -9,27 +9,34 @@ use App\Repo\NotificationInterface;
 use App\Services\QueueInterface;
 use App\Domain\Queue;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\DB;
 
 class PushNotificationController extends Controller
 {
 
     public function __construct(
-        private QueueInterface $queueManager,
-        private NotificationInterface $notificationRepository
+        private QueueInterface $queue,
+        private NotificationInterface $notificationRepo
     ) {
     }
-    // here we also could use invokable class
+    // here we also could've used invokable class
     public function push(PushNotificationRequest $request): JsonResponse
     {
-        $messageKey = uniqid(more_entropy: true);
-        $this->insertNotification(NotificationDto::getDataDomain($request->validated()), $messageKey);
-        $this->publishMessageToQueue(NotificationDto::getDataDomain($request->validated()), $messageKey);
-        return response()->json(null, Response::HTTP_NO_CONTENT);
+        $key = uniqid(more_entropy: true); // this key is used to make messages unique.
+        DB::beginTransaction();
+        try {
+            $this->insertNotification(NotificationDto::getDataDomain($request->validated()), $key);
+            $this->publishMessageToQueue(NotificationDto::getDataDomain($request->validated()), $key);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json($e->getMessage(), $e->getCode());
+        }
+        return response()->json("message pushed successfully");
     }
 
 
-    private function insertNotification(NotificationDto $dto, string $messageKey): void
+    private function insertNotification(NotificationDto $dto, string $key): void
     {
         $notification = new Notification();
         $notification->to = $dto->to;
@@ -37,23 +44,22 @@ class PushNotificationController extends Controller
         $notification->message = $dto->message;
         $notification->type = $notification::mapPushMethod($dto->type);
         $notification->received = false;
-        $notification->key = $messageKey;
-        $notification->created_at = now();
-        $notification->updated_at = now();
+        $notification->key = $key;
 
-        $this->notificationRepository->insert($notification);
+
+        $this->notificationRepo->insert($notification);
     }
 
-    private function publishMessageToQueue(NotificationDto $dto, string $messageKey): void
+    private function publishMessageToQueue(NotificationDto $dto, string $key): void
     {
-        $this->queueManager->publish(new Queue(
+        $this->queue->publish(new Queue(
             Queue::QUEUE,
             [
                 'to' => $dto->to,
                 'name' => $dto->name,
                 'message' => $dto->message,
                 'type' => $dto->type,
-                'key' => $messageKey
+                'key' => $key
             ]
         ));
     }

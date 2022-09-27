@@ -19,13 +19,13 @@ class PushNotificationRequest extends FormRequest
     {
         return [
             'type' => ['required', Rule::in($this->getValidMethods())],
-            'to' => ['required', 'string', WithoutSpaceRule::class, $this->getReceiverRule()],
+            'to' => ['required', 'string', WithoutSpaceRule::class, $this->getMethodRule()],
             'message' => ['required', 'string', 'max:10000'],
             'name' => ['required', 'string', 'max:100']
         ];
     }
 
-    private function getReceiverRule(): string | PersianPhoneRule | null
+    private function getMethodRule(): string | PersianPhoneRule | null
     {
         $type = $this->get('type');
         return $type === config('notif.sms') ? new PersianPhoneRule() : 'email';
