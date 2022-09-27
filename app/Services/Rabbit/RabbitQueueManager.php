@@ -32,7 +32,7 @@ class RabbitQueueManager implements QueueInterface
      */
     public function publish(Queue $queue): void
     {
-        $this->channel->queue_declare($queue->getQueueName(), false, true, false, false);
+        $this->channel->queue_declare($queue->getQueue(), false, true, false, false);
         $msg = new AMQPMessage($queue->serialize(), self::MESSAGE_PROPERTIES);
         $this->channel->basic_publish($msg, routing_key: $queue->getQueue());
         $this->shutdown();
