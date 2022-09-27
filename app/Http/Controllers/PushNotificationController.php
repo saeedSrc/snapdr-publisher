@@ -36,8 +36,8 @@ class PushNotificationController extends Controller
         $notification->name = $dto->name;
         $notification->message = $dto->message;
         $notification->type = $notification::mapPushMethod($dto->type);
-        $notification->sent = false;
-        $notification->message_key = $messageKey;
+        $notification->received = false;
+        $notification->key = $messageKey;
         $notification->created_at = now();
         $notification->updated_at = now();
 

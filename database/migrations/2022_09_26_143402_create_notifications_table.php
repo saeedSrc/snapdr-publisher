@@ -19,8 +19,8 @@ return new class extends Migration
             $table->text('message');
             $table->string('to');
             $table->unsignedTinyInteger('type');
-            $table->boolean('sent');
-            $table->string('message_key')->index();
+            $table->boolean('received');
+            $table->string('key')->index();
             $table->timestamps();
         });
     }

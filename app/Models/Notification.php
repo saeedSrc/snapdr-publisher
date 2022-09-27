@@ -16,8 +16,8 @@ use InvalidArgumentException;
  * @property int $type
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * @property bool $sent
- * @property string $message_key
+ * @property bool $received
+ * @property string $key
  *
  * @method static NotificationFactory factory(...$parameters)
  */
@@ -25,7 +25,7 @@ class Notification extends Model
 {
     use HasFactory;
     protected $casts = [
-        'sent' => 'bool'
+        'received' => 'bool'
     ];
 
     public static function mapPushMethod(string $value): int

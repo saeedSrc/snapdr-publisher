@@ -18,7 +18,7 @@ class MysqlRepository implements NotificationInterface
     public function insert(Notification $notification): Notification
     {
         $sql = 'INSERT INTO notifications' .
-            '(`to`, `name`, `message`, `type`, `sent`, `message_key`, `created_at`, `updated_at`)' .
+            '(`to`, `name`, `message`, `type`, `received`, `key`, `created_at`, `updated_at`)' .
             'VALUES (?,?,?,?,?,?,?,?)';
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([
@@ -26,8 +26,8 @@ class MysqlRepository implements NotificationInterface
             $notification->name,
             $notification->message,
             $notification->type,
-            (int) $notification->sent,
-            $notification->message_key,
+            (int) $notification->received,
+            $notification->key,
             $notification->created_at,
             $notification->updated_at
         ]);

@@ -18,8 +18,8 @@ class NotificationFactory extends Factory
             'name' => $this->faker->name,
             'message' => $this->faker->sentence,
             'type' => $this->faker->randomElement([config('notif.sms_num'), config('notif.email_num')]),
-            'sent' => $this->faker->boolean,
-            'message_key' => $this->faker->uuid,
+            'received' => $this->faker->boolean,
+            'key' => $this->faker->uuid,
             'to' => $this->faker->randomElement([$this->faker->email, $this->faker->phoneNumber]),
         ];
     }

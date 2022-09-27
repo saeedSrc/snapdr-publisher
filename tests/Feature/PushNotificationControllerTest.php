@@ -39,7 +39,7 @@ class PushNotificationControllerTest extends TestCase
             'name' => $originData["name"],
             'message' => $originData["message"],
             'type' => 1,
-            'sent' => 0
+            'received' => 0
         ]);
     }
 
@@ -66,7 +66,7 @@ class PushNotificationControllerTest extends TestCase
             'name' => $originData["name"],
             'message' => $originData["message"],
             'type' => 2,
-            'sent' => 0
+            'received' => 0
         ]);
     }
 
