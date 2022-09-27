@@ -21,8 +21,12 @@ class PushNotificationControllerTest extends TestCase
     public function testSuccessPushSms(): void
     {
         //arrange
-        $originData = array("to"=>"989121111111", "name"=>"john smith", "message"=>"hello john", "type" => "sms" );
-        $data = (compact($originData["to"], $originData['name'], $originData['message'], $originData['type']));
+//        $originData = array("to"=>"989121111111", "name"=>"john smith", "message"=>"hello john", "type" => "sms" );
+        $to = '09123860421';
+        $message = 'hi saeed';
+        $name = 'saeed rasooli';
+        $type = 'sms';
+        $data = compact('to', 'name', 'message', 'type');
 
         $queueManager = $this->mock(QueueInterface::class);
 
@@ -35,9 +39,9 @@ class PushNotificationControllerTest extends TestCase
         //assert
         $response->assertStatus(204);
         $this->assertDatabaseHas('notifications', [
-            'to' => $originData["to"],
-            'name' => $originData["name"],
-            'message' => $originData["message"],
+            'to' => $data["to"],
+            'name' => $data["name"],
+            'message' => $data["message"],
             'type' => 1,
             'received' => 0
         ]);
@@ -49,8 +53,12 @@ class PushNotificationControllerTest extends TestCase
     public function testSuccessPushEmail(): void
     {
         //arrange
-        $originData = array("to"=>"foo@bar.com", "name"=>"John Doe", "message"=>'<b>Hello John</b>, <br /> <h3>Your order is ready.</h3>', "type" => "email" );
-        $data = (compact($originData["to"], $originData['name'], $originData['message'], $originData['type']));
+//        $originData = array("to"=>"foo@bar.com", "name"=>"John Doe", "message"=>'<b>Hello John</b>, <br /> <h3>Your order is ready.</h3>', "type" => "email" );
+        $to = 'saeed@yahoo.com';
+        $message = 'hi saeed';
+        $name = 'saeed rasooli';
+        $type = 'email';
+        $data = compact('to', 'name', 'message', 'type');
         $queueManager = $this->mock(QueueInterface::class);
 
         //expect
@@ -62,9 +70,9 @@ class PushNotificationControllerTest extends TestCase
         //assert
         $response->assertStatus(204);
         $this->assertDatabaseHas('notifications', [
-            'to' => $originData["to"],
-            'name' => $originData["name"],
-            'message' => $originData["message"],
+            'to' => $data["to"],
+            'name' => $data["name"],
+            'message' => $data["message"],
             'type' => 2,
             'received' => 0
         ]);

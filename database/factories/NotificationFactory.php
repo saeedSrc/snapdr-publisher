@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories\Entities;
+namespace Database\Factories;
 
 use App\Models\Notification;
 use Illuminate\Database\Eloquent\Factories\Factory;

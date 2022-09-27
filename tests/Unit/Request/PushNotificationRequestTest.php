@@ -3,6 +3,7 @@
 namespace Tests\Unit\Request;
 
 use App\Rules\PersianPhoneRule;
+use App\Rules\WithoutSpaceRule;
 use Illuminate\Validation\Rule;
 use App\Http\Requests\PushNotificationRequest;
 use Tests\TestCase;
@@ -26,30 +27,30 @@ class PushNotificationRequestTest extends TestCase
     {
         return [
             'type is not valid' => [
-                new PushNotificationRequest(['type' => 'foo']),
+                new PushNotificationRequest(['type' => 'sms']),
                 [
-                    'to' => ['required', 'string', 'max:60', null],
-                    'name' => ['required', 'string', 'max:60'],
+                    'type' => ['required', Rule::in(['sms', 'email'])],
+                    'to' => ['required', 'string', new WithoutSpaceRule()],
                     'message' => ['required', 'string', 'max:10000'],
-                    'type' => ['required', Rule::in(['sms', 'email'])]
+                    'name' => ['required', 'string', 'max:100']
                 ]
             ],
             'type is equal to sms' => [
                 new PushNotificationRequest(['type' => 'email']),
                 [
-                    'to' => ['required', 'string', 'max:60', 'email'],
-                    'name' => ['required', 'string', 'max:60'],
+                    'type' => ['required', Rule::in(['sms', 'email'])],
+                    'to' => ['required', 'string', new WithoutSpaceRule()],
                     'message' => ['required', 'string', 'max:10000'],
-                    'type' => ['required', Rule::in(['sms', 'email'])]
+                    'name' => ['required', 'string', 'max:100']
                 ]
             ],
             'type is equal to email' => [
                 new PushNotificationRequest(['type' => 'sms']),
                 [
-                    'to' => ['required', 'string', 'max:60', new PersianPhoneRule()],
-                    'name' => ['required', 'string', 'max:60'],
+                    'type' => ['required', Rule::in(['sms', 'email'])],
+                    'to' => ['required', 'string', new WithoutSpaceRule()],
                     'message' => ['required', 'string', 'max:10000'],
-                    'type' => ['required', Rule::in(['sms', 'email'])]
+                    'name' => ['required', 'string', 'max:100']
                 ]
             ],
         ];

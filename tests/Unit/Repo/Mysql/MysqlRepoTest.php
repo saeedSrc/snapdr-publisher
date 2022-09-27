@@ -4,7 +4,7 @@ namespace Tests\Unit\Repo\Mysql;
 
 use App\Models\Notification;
 
-use App\Repo\MysqlRepository;
+use App\Repo\MysqlNotification;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
@@ -16,7 +16,7 @@ class MysqlRepoTest extends TestCase
     {
         //arrange
         $notification = Notification::factory()->make();
-        $repository = new MysqlRepository();
+        $repository = new MysqlNotification\MysqlRepository();
 
         //act
         $result = $repository->insert($notification);
